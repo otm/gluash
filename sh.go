@@ -1,10 +1,6 @@
 package gluash
 
-import (
-	"path/filepath"
-
-	"github.com/yuin/gopher-lua"
-)
+import "github.com/yuin/gopher-lua"
 
 var exports = map[string]lua.LGFunction{}
 var abort = false
@@ -70,9 +66,14 @@ func moduleCall(L *lua.LState) int {
 
 func glob(L *lua.LState) int {
 	pattern := L.CheckString(1)
-	args, err := filepath.Glob(pattern)
+
+	args, err := Glob(pattern)
 	if err != nil {
 		L.RaiseError("%v", err)
+	}
+
+	for i, arg := range args {
+		args[i] = "\"" + arg + "\""
 	}
 
 	for _, arg := range args {
