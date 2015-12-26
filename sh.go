@@ -72,10 +72,6 @@ func glob(L *lua.LState) int {
 		L.RaiseError("%v", err)
 	}
 
-	for i, arg := range args {
-		args[i] = "\"" + arg + "\""
-	}
-
 	for _, arg := range args {
 		L.Push(lua.LString(arg))
 	}
